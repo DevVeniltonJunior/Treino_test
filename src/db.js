@@ -1,11 +1,15 @@
-import { Sequelize } from "sequelize"
+const sequelize = require('sequelize')
 
-const db = new Sequelize("naotem", "sa", "1234", {
+const db = new sequelize("test", "sa", "Senha@123", {
   dialect: "mssql",
   host: "localhost",
-  port: 1433,
+  port: 1434,
 })
+
+console.log("syncing database ...")
 
 db.sync()
 
-export default db
+console.log("sync finished")
+
+module.exports = db

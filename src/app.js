@@ -1,10 +1,10 @@
-import { Express } from "express"
-import router from "./router"
+const express = require('express')
+const router = require('./router')
 
-const app = Express()
+const app = express()
 
-app.use(Express.json())
-app.use(Express.urlencoded({ extended: true }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 app.use("/", router)
 

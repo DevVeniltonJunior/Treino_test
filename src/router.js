@@ -1,12 +1,12 @@
-import { Router } from "express"
-import UserController from "./controllers/UserController"
+const express = require('express')
+const UserController = require('./controllers/UserController')
 
-const router = Router()
+const router = express.Router()
 
 router.post("/users", UserController.create)
 router.get("/users", UserController.findAll)
 router.put("/users", UserController.update)
-router.delete("/users", UserController.delete)
+router.delete("/users/:id", UserController.delete)
 router.get("/users/:id", UserController.findById)
 
-export default router
+module.exports = router

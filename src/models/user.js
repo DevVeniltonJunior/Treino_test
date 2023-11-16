@@ -1,32 +1,32 @@
-import { Sequelize } from "sequelize"
-import db from "../db"
+const sequelize = require('sequelize')
+const db = require('../db')
 
 const schema = {
   id: {
-    type: Sequelize.INTEGER,
+    type: sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
   name: {
-    type: Sequelize.STRING,
+    type: sequelize.STRING,
   },
   email: {
-    type: Sequelize.STRING,
+    type: sequelize.STRING,
   },
   password: {
-    type: Sequelize.STRING,
+    type: sequelize.STRING,
   },
   createdAt: {
-    type: Sequelize.DATE,
+    type: sequelize.DATE,
   },
   updatedAt: {
-    type: Sequelize.DATE,
+    type: sequelize.DATE,
     allowNull: true,
   },
 }
 
-class User extends Sequelize.Model {}
+class User extends sequelize.Model {}
 
 User.init(schema, { sequelize: db, modelName: "users", timestamps: true })
 
-export default User
+module.exports = User

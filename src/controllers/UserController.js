@@ -1,9 +1,9 @@
-import User from "../models/user"
+const modelUser = require('../models/user')
 
-export default {
+module.exports = {
   async findAll(req, res) {
     try {
-      const users = await User.findAll()
+      const users = await modelUser.findAll()
       if (!users || users.length === 0) {
         return res.status(400).json({ error: "Users not found" })
       }
@@ -15,7 +15,7 @@ export default {
 
   async findById(req, res) {
     try {
-      const user = await User.findByPk(req.params.id)
+      const user = await modelUser.findByPk(req.params.id)
       if (!user) {
         return res.status(400).json({ error: "User not found" })
       }
@@ -31,19 +31,19 @@ export default {
         return res.status(400).json({ error: "Name, email and password are required" })
       }
 
-      const alreadyExists = await User.findOne({ where: { email: req.body.email } })
+      const alreadyExists = await modelUser.findOne({ where: { email: req.body.email } })
       if (alreadyExists) {
         return res.status(400).json({ error: "User already exists" })
       }
 
-      const user = await User.create({
+      const user = await modelUser.create({
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
         createdAt: new Date(),
       })
 
-      return res.json(user)
+      return res.status(201).json(user)
     } catch (error) {
       return res.status(500).json({ error: error.message })
     }
@@ -51,10 +51,19 @@ export default {
 
   async update(req, res) {
     try {
-      const user = await User.findByPk(req.body.id)
+      const user = await modelUser.findByPk(req.body.id)
       if (!user) {
         return res.status(400).json({ error: "User not found" })
-      } 
+      }
+
+      const update = await modelUser.update({
+        name: req.body.name ? req.body.name : undefined,
+        email: req.body.email ? req.body.email : undefined,
+        password: req.body.password ? req.body.password : undefined,
+        updateAt: new Date()
+      }, { where: { id: req.body.id }})
+
+      return res.json(update)
     } catch (error) {
       return res.status(500).json({ error: error.message })    
     }
@@ -62,10 +71,14 @@ export default {
 
   async delete(req, res) {
     try {
-      const user = await User.findByPk(req.body.id)
+      const user = await modelUser.findByPk(req.params.id)
       if (!user) {
         return res.status(400).json({ error: "User not found" })
       }
+
+      const dell = await modelUser.destroy({where: { id: req.params.id }})
+
+      return res.json(dell)
     } catch (error) {
       return res.status(500).json({ error: error.message })
     }
